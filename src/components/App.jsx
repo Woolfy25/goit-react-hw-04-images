@@ -46,7 +46,7 @@ export const App = () => {
       console.error('Error fetching images:', error);
       setLoading(false);
     }
-  }, [query, page]);
+  }, [query, page, BASE_URL]);
 
   useEffect(() => {
     fetchImages();
