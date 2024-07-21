@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
 import css from './Modal.module.css';
 
-const Modal = (props, src, alt) => {
+const Modal = ({ onClose, src, alt }) => {
   const handleKeyDown = e => {
     if (e.code === 'Escape') {
-      props.onClose();
+      onClose();
     }
   };
 
   const handleOverlayClick = e => {
     if (e.currentTarget === e.target) {
-      props.onClose();
+      onClose();
     }
   };
 

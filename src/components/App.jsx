@@ -6,13 +6,7 @@ import Button from './Button';
 import Modal from './Modal';
 import { Circles } from 'react-loader-spinner';
 
-export const App = (
-  images,
-  showModal,
-  modalImageSrc,
-  modalImageAlt,
-  loading
-) => {
+export const App = () => {
   const [images, setImages] = useState([]);
   const [page, setPage] = useState(1);
   const [showModal, setShowModal] = useState(false);
@@ -23,18 +17,6 @@ export const App = (
 
   const API_KEY = '44948375-490a2b5531ef23b5637f1620a';
   const BASE_URL = `https://pixabay.com/api/?key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`;
-
-  const handleValue = search => {
-    setQuery(search);
-    setPage(1);
-    setImages([]);
-  };
-
-  useEffect(() => {
-    if (query) {
-      fetchImages();
-    }
-  }, [query, page, fetchImages]);
 
   const fetchImages = useCallback(async () => {
     setLoading(true);
@@ -66,29 +48,31 @@ export const App = (
     }
   }, [query, page]);
 
+  useEffect(() => {
+    fetchImages();
+  }, [fetchImages]);
+
+  const handleValue = search => {
+    setQuery(search);
+    setPage(1);
+    setImages([]);
+  };
+
   const loadMoreImages = () => {
-    this.setState(
-      prevState => ({ page: prevState.page + 1 }),
-      this.fetchImages
-    );
+    setPage(prevPage => prevPage + 1);
   };
 
-  openModal = (src, alt) => {
-    this.setState({
-      showModal: true,
-      modalImageSrc: src,
-      modalImageAlt: alt,
-    });
+  const openModal = (src, alt) => {
+    setShowModal(true);
+    setModalImageSrc(src);
+    setModalImageAlt(alt);
   };
 
-  closeModal = () => {
-    this.setState({
-      showModal: false,
-      modalImageSrc: '',
-      modalImageAlt: '',
-    });
+  const closeModal = () => {
+    setShowModal(false);
+    setModalImageSrc('');
+    setModalImageAlt('');
   };
-
   return (
     <div className={css.App}>
       <Searchbar onSubmit={handleValue} />
